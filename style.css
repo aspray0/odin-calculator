@@ -5,3 +5,7 @@
   margin: 0px;
   border: 0px;
 }
+
+.display {
+  border: 3px solid black;
+}
