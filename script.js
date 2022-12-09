@@ -1,6 +1,7 @@
 // script.js
 
 const display = document.querySelector('.display');
+display.textContent = '';
 let numArray = [];
 let opArray = [];
 let currentNumString = '';
