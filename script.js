@@ -102,20 +102,24 @@ eqButton.addEventListener('click', () => { // add eventListener for click that r
   numArray = numArray.slice(0, (numArray.length - 2));
 });
 
+function roundToEight(num) {
+  return +(Math.round(num + 'e+8') + 'e-8');
+}
+
 function add(a, b) {
-  return +a + +b;
+  return roundToEight(+a + +b);
 }
 
 function subtract(a, b) {
-  return +a - +b;
+  return roundToEight(+a - +b);
 }
 
 function multiply(a, b) {
-  return +a * +b;
+  return roundToEight(+a * +b);
 }
 
 function divide(a, b) {
-  return +a / +b;
+  return roundToEight(+a / +b);
 }
 
 function operate(num1, num2) {
