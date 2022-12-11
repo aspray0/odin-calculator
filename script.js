@@ -5,6 +5,8 @@ display.textContent = '';
 let numArray = [];
 let opArray = [];
 let currentNumString = '';
+let j = 0;
+let eqFlag = false;
 
 const opButtons = document.querySelectorAll('.opButton');
 
@@ -12,7 +14,12 @@ const numButtons = document.querySelectorAll('.numButton');
 numButtons.forEach(numButton => {
   numButton.addEventListener('click', () => {
 
-    if (display.textContent === 'We don\'t divide by 0 here.') {
+    if (eqFlag) {
+      eqFlag = false;
+      currentNumString = '';
+    }
+
+    if (display.textContent === 'No div by 0 >:c') {
       display.textContent = '';
     };
 
@@ -24,7 +31,12 @@ numButtons.forEach(numButton => {
 opButtons.forEach(opButton => {
   opButton.addEventListener('click', () => {
 
-    if (display.textContent === 'We don\'t divide by 0 here.') {
+    if (eqFlag) {
+      eqFlag = false;
+      currentNumString = '';
+    }
+
+    if (display.textContent === 'No div by 0 >:c') {
       display.textContent = '';
     };
 
@@ -54,14 +66,26 @@ clButton.addEventListener('click', () => {
   opArray.length = 0;
   display.textContent = '';
   currentNumString = '';
+  j = 0;
+  eqFlag = false;
 });
 
 const dcButton = document.querySelector('.dcButton');
 dcButton.addEventListener('click', () => {
 
-  if (display.textContent === 'We don\'t divide by 0 here.') {
+  if (eqFlag) {
+    eqFlag = false;
+    currentNumString = '';
+  }
+
+  if (display.textContent === 'No div by 0 >:c') {
     display.textContent = '';
   };
+
+  if (currentNumString === '') {
+    display.textContent = `${display.textContent}` + '0.';
+    currentNumString = `0.`    
+  }
 
   if (!currentNumString.includes('.')) {
     currentNumString = `${currentNumString}` + `.`
@@ -73,7 +97,12 @@ const bkButton = document.querySelector('.bkButton');
 bkButton.textContent = '<-';
 bkButton.addEventListener('click', () => {
 
-  if (display.textContent === 'We don\'t divide by 0 here.') {
+  if (eqFlag) {
+    eqFlag = false;
+    currentNumString = '';
+  }
+
+  if (display.textContent === 'No div by 0 >:c') {
     display.textContent = '';
   };
 
@@ -86,7 +115,9 @@ bkButton.addEventListener('click', () => {
 const eqButton = document.querySelector('.eqButton'); // select = button, store in eqButton var
 eqButton.addEventListener('click', () => { // add eventListener for click that runs a function
 
-  if (display.textContent === 'We don\'t divide by 0 here.') {
+  if (eqFlag) return;
+
+  if (display.textContent === 'No div by 0 >:c') {
     display.textContent = '';
   };
 
@@ -99,7 +130,10 @@ eqButton.addEventListener('click', () => { // add eventListener for click that r
   currentNumString = `${result}`; // assign that variable value to currentNumString
   display.textContent = `${result}`; // and display.textContent
   opArray.length = 0;
-  numArray = numArray.slice(0, (numArray.length - 2));
+  numArray.length = 0;
+  j = 0;
+  eqFlag = true;
+  result = 0;
 });
 
 function roundToEight(num) {
@@ -124,31 +158,30 @@ function divide(a, b) {
 
 function operate(num1, num2) {
 
-  let i = 0;
-
-  if ((opArray[i] === '/') && (num2 === '0')) {
+  if ((opArray[j] === '/') && (num2 === '0')) {
     currentNumString = '';
     numArray.length = 0;
     opArray.length = 0;
-    return 'We don\'t divide by 0 here.';
+    j = 0;
+    return 'No div by 0 >:c';
   }
 
-  if (num1 === 'We don\'t divide by 0 here.') {
+  if (num1 === 'No div by 0 >:c') {
     return num1;
   }
 
   switch (true) {
-    case (opArray[i] === '+'):
-      i++;
+    case (opArray[j] === '+'):
+      j++;
       return add(num1, num2);
-    case (opArray[i] === '-'):
-      i++;
+    case (opArray[j] === '-'):
+      j++;
       return subtract(num1, num2);
-    case (opArray[i] === '*'):
-      i++;
+    case (opArray[j] === '*'):
+      j++;
       return multiply(num1, num2);
-    case (opArray[i] === '/'): 
-      i++;
+    case (opArray[j] === '/'): 
+      j++;
       return divide(num1, num2);      
   }
 }
