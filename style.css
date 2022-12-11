@@ -4,8 +4,96 @@
   box-sizing: border-box;
   margin: 0px;
   border: 0px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 32px;
+}
+
+h1 {
+  display: flex;
+  justify-content: space-between;
+}
+
+h1 > div {
+  font-size: 24px;
+}
+
+body {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1em;
+}
+
+.container {
+  box-sizing: content-box;
+  padding: 13.5px;
+  border-radius: 8px;
+  background-color: #003366;
+  width: 480px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  gap: 13.5px;
+}
+
+.button-container {
+  border-radius: 8px;
+  background-color: #050524;
+  height: 560px;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 13.5px;
+}
+
+.button-column {
+  display: flex;
+  height: 560px;
+  width: 96px;
+  flex-flow: column nowrap;
+  justify-content: center;
+  gap: 13.5px;
+  align-items: center;
+}
+
+button {
+  width: 96px;
+  height: 96px;
+  border-radius: 6px;
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.display-container {
+  background-color: whitesmoke;
+  border-radius: 8px;
+  padding: 13.5px;
+  width: 480px;
 }
 
 .display {
+  padding: 0px 4px;
+  display: flex;
+  font-size: 46px;
+  justify-content: flex-end;
+  white-space: nowrap;
+  overflow: hidden;
+  align-items: center;
+  box-sizing: content-box;
   border: 3px solid black;
+  height: 96px;
+  background-color: rgb(154, 169, 184);
+}
+
+.opButton,
+.eqButton,
+.clButton,
+.bkButton {
+  background-color: rgba(57, 67, 214, 0.767);
+  color: whitesmoke;
 }
