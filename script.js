@@ -8,7 +8,6 @@ let currentNumString = '';
 let j = 0;
 let eqFlag = false;
 
-const opButtons = document.querySelectorAll('.opButton');
 
 const numButtons = document.querySelectorAll('.numButton');
 numButtons.forEach(numButton => {
@@ -18,47 +17,104 @@ numButtons.forEach(numButton => {
       eqFlag = false;
       currentNumString = '';
     }
-
+  
     if (display.textContent === 'No div by 0 >:c') {
       display.textContent = '';
     };
-
+  
     currentNumString = `${currentNumString}` + `${numButton.textContent}`;
     display.textContent = `${display.textContent}` + `${numButton.textContent}`;
-  })
+  });
 });
 
+numButtons.forEach(numButton => {
+  numButton.addEventListener('keyup', function(e) {
+    if (e.key === `${numButton.textContent}`) {
+
+      if (eqFlag) {
+        eqFlag = false;
+        currentNumString = '';
+      }
+    
+      if (display.textContent === 'No div by 0 >:c') {
+        display.textContent = '';
+      };
+    
+      currentNumString = `${currentNumString}` + `${numButton.textContent}`;
+      display.textContent = `${display.textContent}` + `${numButton.textContent}`;
+    }
+  });
+})
+
+
+
+
+const opButtons = document.querySelectorAll('.opButton');
 opButtons.forEach(opButton => {
   opButton.addEventListener('click', () => {
+      if (eqFlag) {
+        eqFlag = false;
+        currentNumString = '';
+      };
+    
+      if (display.textContent === 'No div by 0 >:c') {
+        display.textContent = '';
+      };
+    
+      switch (true) { // If last action was an operator, return
+        case (display.textContent === ''):
+          return;
+        case (display.textContent.charAt(display.textContent.length - 2) === '+'):
+          return;
+        case (display.textContent.charAt(display.textContent.length - 2) === '-'):
+           return;
+        case (display.textContent.charAt(display.textContent.length - 2) === '*'):
+           return;
+        case (display.textContent.charAt(display.textContent.length - 2) === '/'):
+          return;
+      }
+    
+      numArray.push(`${currentNumString}`); // store first number in numArray
+      currentNumString = ''; // clear currentNumString
+      opArray.push(`${opButton.textContent}`); // store operator in operator variable
+      display.textContent = `${display.textContent}` + ` ${opButton.textContent} `;
+    });
+  });
 
-    if (eqFlag) {
-      eqFlag = false;
-      currentNumString = '';
-    }
 
-    if (display.textContent === 'No div by 0 >:c') {
-      display.textContent = '';
+opButtons.forEach(opButton => {
+  opButton.addEventListener('keyup', function(e) {
+    if (e.key === `${opButton.textContent}`) {
+      if (eqFlag) {
+        eqFlag = false;
+        currentNumString = '';
+      };
+    
+      if (display.textContent === 'No div by 0 >:c') {
+        display.textContent = '';
+      };
+    
+      switch (true) { // If last action was an operator, return
+        case (display.textContent === ''):
+          return;
+        case (display.textContent.charAt(display.textContent.length - 2) === '+'):
+          return;
+        case (display.textContent.charAt(display.textContent.length - 2) === '-'):
+           return;
+        case (display.textContent.charAt(display.textContent.length - 2) === '*'):
+           return;
+        case (display.textContent.charAt(display.textContent.length - 2) === '/'):
+          return;
+      }
+    
+      numArray.push(`${currentNumString}`); // store first number in numArray
+      currentNumString = ''; // clear currentNumString
+      opArray.push(`${opButton.textContent}`); // store operator in operator variable
+      display.textContent = `${display.textContent}` + ` ${opButton.textContent} `;
     };
-
-    switch (true) { // If last action was an operator, return
-      case (display.textContent === ''):
-        return;
-      case (display.textContent.charAt(display.textContent.length - 2) === '+'):
-        return;
-      case (display.textContent.charAt(display.textContent.length - 2) === '-'):
-         return;
-      case (display.textContent.charAt(display.textContent.length - 2) === '*'):
-         return;
-      case (display.textContent.charAt(display.textContent.length - 2) === '/'):
-        return;
-    }
-
-    numArray.push(`${currentNumString}`); // store first number in numArray
-    currentNumString = ''; // clear currentNumString
-    opArray.push(`${opButton.textContent}`); // store operator in operator variable
-    display.textContent = `${display.textContent}` + ` ${opButton.textContent} `;
-  })
+  });
 });
+
 
 const clButton = document.querySelector('.clButton');
 clButton.addEventListener('click', () => {
@@ -69,6 +125,17 @@ clButton.addEventListener('click', () => {
   j = 0;
   eqFlag = false;
 });
+
+clButton.addEventListener('keyup', function(e) {
+  if (e.key === `c`) {
+    numArray.length = 0;
+    opArray.length = 0;
+    display.textContent = '';
+    currentNumString = '';
+    j = 0;
+    eqFlag = false;
+  }
+})
 
 const dcButton = document.querySelector('.dcButton');
 dcButton.addEventListener('click', () => {
@@ -82,14 +149,28 @@ dcButton.addEventListener('click', () => {
     display.textContent = '';
   };
 
-  if (currentNumString === '') {
-    display.textContent = `${display.textContent}` + '0.';
-    currentNumString = `0.`    
-  }
-
   if (!currentNumString.includes('.')) {
     currentNumString = `${currentNumString}` + `.`
     display.textContent = `${display.textContent}` + `.`;
+  };
+});
+
+dcButton.addEventListener('keyup', function(e) {
+  if (e.key === `.`) {
+
+    if (eqFlag) {
+      eqFlag = false;
+      currentNumString = '';
+    }
+  
+    if (display.textContent === 'No div by 0 >:c') {
+      display.textContent = '';
+    };
+  
+    if (!currentNumString.includes('.')) {
+      currentNumString = `${currentNumString}` + `.`
+      display.textContent = `${display.textContent}` + `.`;
+    }
   };
 });
 
@@ -107,8 +188,27 @@ bkButton.addEventListener('click', () => {
   };
 
   if ((currentNumString) || (currentNumString === '0')) {
-    currentNumstring = currentNumString.slice(0, -1);
+    currentNumString = currentNumString.slice(0, -1);
     display.textContent = display.textContent.slice(0, -1);
+  };
+});
+
+bkButton.addEventListener('keyup', function(e) {
+  if (e.key === `Backspace`) () => {
+
+    if (eqFlag) {
+      eqFlag = false;
+      currentNumString = '';
+    }
+  
+    if (display.textContent === 'No div by 0 >:c') {
+      display.textContent = '';
+    };
+  
+    if ((currentNumString) || (currentNumString === '0')) {
+      currentNumstring = currentNumString.slice(0, -1);
+      display.textContent = display.textContent.slice(0, -1);
+    };
   };
 });
 
@@ -133,8 +233,32 @@ eqButton.addEventListener('click', () => { // add eventListener for click that r
   numArray.length = 0;
   j = 0;
   eqFlag = true;
-  result = 0;
 });
+
+eqButton.addEventListener('keyup', function(e) {
+  if (e.key === `=`) () => { // add eventListener for click that runs a function
+
+    if (eqFlag) return;
+  
+    if (display.textContent === 'No div by 0 >:c') {
+      display.textContent = '';
+    };
+  
+    if (!(numArray && opArray && currentNumString)) {
+      return;
+    }
+  
+    numArray.push(`${currentNumString}`);
+    let result = numArray.reduce((accumulator, currentValue) => operate(accumulator, currentValue)); // that reduces numArray using operate() and stores the result in a variable
+    currentNumString = `${result}`; // assign that variable value to currentNumString
+    display.textContent = `${result}`; // and display.textContent
+    opArray.length = 0;
+    numArray.length = 0;
+    j = 0;
+    eqFlag = true;
+    result = 0;
+  };
+})
 
 function roundToEight(num) {
   return +(Math.round(num + 'e+8') + 'e-8');
