@@ -163,7 +163,8 @@ eqButton.addEventListener('click', () => { // add eventListener for click that r
 });
 
 window.addEventListener('keydown', function(e) {
-  if ((e.key === '=') || (e.key === 'Enter')) () => { // add eventListener for click that runs a function
+  if ((e.key === '=') || (e.key === 'Enter')) () => {
+    e.preventDefault();
     eqButton.click();
   };
 })
